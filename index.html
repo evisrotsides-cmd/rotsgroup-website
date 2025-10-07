@@ -1,0 +1,348 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Rots Group</title>
+  <style>
+    :root{
+      --navy:#0A1A33; 
+      --navy-dark:#081226; 
+      --silver:#D6D6D6; 
+      --text:#EAEAEA;
+    }
+    *{box-sizing:border-box}
+    html,body{margin:0;padding:0;background:var(--navy);color:var(--text);font-family:'Poppins',system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;scroll-behavior:smooth;}
+
+    .nav {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 10;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 14px 6vw;
+
+      /* Fallback background for older browsers */
+      background: rgba(10, 26, 51, 0.75);
+
+      /* Smooth backdrop blur for Safari + others */
+      -webkit-backdrop-filter: blur(6px) saturate(120%);
+      backdrop-filter: blur(6px) saturate(120%);
+
+      /* Subtle bottom border for separation */
+      border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+
+      /* Performance tweaks */
+      will-change: backdrop-filter;
+      transition: background 0.3s ease, backdrop-filter 0.3s ease;
+    }
+    .brand img { height: 40px; }
+    .brand{font-weight:600;letter-spacing:.06em}
+    .nav a{color:var(--text);text-decoration:none;margin-left:20px;font-size:.95rem;opacity:.9}
+    .nav a:hover{opacity:1}
+
+    header.hero{position:relative;min-height:100vh;display:flex;align-items:center;justify-content:center;text-align:center;padding:0 6vw;overflow:hidden}
+    header.hero::before{
+      content:'';
+      position:absolute;
+      inset:0;
+      background:linear-gradient(rgba(10,26,51,.6),rgba(10,26,51,.6)),
+      url('https://i.postimg.cc/C5n5YyhN/Zimbali-backrounnd.jpg') center/cover no-repeat;
+      filter:brightness(1.1);
+    }
+    .hero-inner{position:relative;z-index:1;max-width:1100px;animation:fadeIn 2s ease forwards;opacity:0;}
+    .hero h1{font-size:clamp(36px,6vw,64px);margin:0 0 10px;animation:fadeUp 2.5s ease forwards;opacity:0;}
+    .hero p.sub{font-size:clamp(16px,2.2vw,22px);opacity:0;margin:0 0 30px;animation:fadeUp 3s ease forwards;animation-delay:.3s;}
+    .btn{display:inline-block;background:var(--silver);color:var(--navy);padding:14px 26px;border-radius:28px;font-weight:600;text-decoration:none;transition:.2s;animation:fadeUp 3.5s ease forwards;animation-delay:.6s;opacity:0;}
+    .btn:hover{transform:translateY(-1px);filter:brightness(1.05)}
+
+    @keyframes fadeUp{0%{opacity:0;transform:translateY(20px);}100%{opacity:1;transform:translateY(0);}}
+    @keyframes fadeIn{0%{opacity:0;}100%{opacity:1;}}
+
+    section{padding:80px 6vw;max-width:1200px;margin:0 auto}
+    h2.section-title{font-size:clamp(24px,3vw,34px);margin:0 0 28px;border-bottom:1px solid rgba(255,255,255,.08);padding-bottom:10px;color:#dcdcdc}
+
+    .story p{line-height:1.8;font-size:1.05rem;max-width:950px;margin:auto;text-align:justify;color:#e0e0e0;font-style:italic;}
+
+    .grid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
+    .property-card{position:relative;overflow:hidden;border-radius:14px;background:#0f203f;border:1px solid rgba(255,255,255,.06);padding-bottom:16px;text-align:left}
+
+    .property-carousel{position:relative;height:240px}
+    .property-carousel img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:block;opacity:0;transition:opacity .5s ease}
+    .property-carousel img.active{opacity:1}
+
+    .property-meta{display:flex;align-items:center;justify-content:space-between;padding:14px 16px}
+    .property-title{font-weight:600}
+    .property-loc{opacity:.8;font-size:.95rem}
+    .teaser{padding:0 16px;font-style:italic;opacity:.9}
+    .more-text{padding:0 16px;display:none;opacity:.9}
+    .toggle-btn{margin:10px 16px;background:none;border:1px solid rgba(255,255,255,.3);color:var(--text);padding:6px 12px;border-radius:8px;cursor:pointer;transition:0.3s}
+    .toggle-btn:hover{background:rgba(255,255,255,.1)}
+
+    .services{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
+    .service-card{background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.06);border-radius:14px;padding:22px}
+    .service-card h3{margin:0 0 8px}
+    .service-card p{opacity:.9}
+
+    form{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-top:10px}
+    form input,form textarea{background:#0f203f;color:var(--text);border:1px solid rgba(255,255,255,.08);border-radius:10px;padding:12px;font-size:1rem}
+    form textarea{grid-column:1/-1;min-height:120px}
+    form button.btn{grid-column:1/-1;margin-top:10px}
+
+    footer{background:var(--navy-dark);padding:28px 6vw;border-top:1px solid rgba(255,255,255,0.06);display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap}
+    .links a{color:#cfcfcf;text-decoration:none;margin-right:16px;opacity:.85}
+    .links a:hover{opacity:1}
+
+    @media(max-width:980px){.grid{grid-template-columns:repeat(2,1fr)}.services{grid-template-columns:1fr}form{grid-template-columns:1fr}}
+    @media(max-width:620px){.grid{grid-template-columns:1fr}}
+  </style>
+</head>
+<body>
+  <nav class="nav">
+    <div class="brand"><img src="images/rots.png" alt="Rots Group Logo"></div>
+    <div>
+      <a href="#story">Our Story</a>
+      <a href="#portfolio">Portfolio</a>
+      <a href="#services">Services</a>
+      <a href="#contact">Contact</a>
+    </div>
+  </nav>
+
+  <header class="hero" id="home">
+    <div class="hero-inner">
+      <h1>Discover Our Exclusive Property Collection</h1>
+      <p class="sub">Hotels, apartments, and luxury stays in Europe &amp; Africa.</p>
+      <a href="#portfolio" class="btn">View Portfolio</a>
+    </div>
+  </header>
+
+  <section id="story" class="story">
+    <h2 class="section-title">Our Story</h2>
+    <p><em>At <strong>Rots Group</strong>, we began with a single property and a simple goal — to create spaces that inspire, comfort, and stand the test of time. What started as a passion for thoughtful design and hospitality soon evolved into a company known for transforming properties into meaningful experiences.</em></p>
+    <p><em>From those humble beginnings, we’ve grown steadily — guided by a clear vision, meticulous attention to detail, and an unshakeable commitment to quality. Every project we take on, whether a boutique hotel, a serviced apartment, or a private residence, is treated as an opportunity to blend functionality with timeless aesthetics.</em></p>
+    <p><em>Our success is rooted in the belief that true value lies in more than just structures — it’s about the people who experience them. We focus on creating environments that enhance everyday living while delivering sustainable financial performance for our partners and investors.</em></p>
+    <p><em>Today, Rots Group stands as a bridge between design and business, merging hospitality insight with property strategy. With operations across Europe and Africa, we continue to expand our footprint, collaborating with visionaries who share our drive for excellence.</em></p>
+    <p><em>We remain, at our core, inspired by the same principles that shaped our beginning: passion, precision, and purpose. Every space we touch reflects our enduring philosophy — that extraordinary places are not simply built; they are crafted with care, intention, and heart.</em></p>
+  </section>
+
+  <section id="portfolio">
+    <h2 class="section-title">Our Portfolio</h2>
+    <div class="grid">
+      <!-- Property 1: Iconyc Apartments -->
+      <div class="property-card">
+        <div class="property-carousel">
+          <img src="https://i.postimg.cc/Twp8kF68/Iconyc-new12.jpg" alt="Iconyc Apartments" class="active">
+          <img src="https://i.postimg.cc/g0XwzPB0/Iconyc-2.jpg" alt="Iconyc Apartments">
+          <img src="https://i.postimg.cc/zDSyX7pX/Iconyc-3.jpg" alt="Iconyc Apartments">
+        </div>
+        <div class="property-meta">
+          <div>
+            <div class="property-title">Iconyc Apartments</div>
+            <div class="property-loc">Johannesburg, South Africa</div>
+          </div>
+        </div>
+        <p class="teaser">Intimate, individualized, and utterly exclusive.</p>
+        <div class="more-text">
+          <p>Our apartments and communal living spaces are designed to cater to your every need. ICONYC offers a truly unique living experience, with apartments tailored to your personal style and lifestyle. Every element — from interiors to amenities — meets the highest standards of excellence, conceived and created with passion and precision.</p>
+          <p>→ Uncompromising excellence. Unsurpassed elegance.</p>
+        </div>
+        <button class="toggle-btn">Show More</button>
+      </div>
+
+      <!-- Property 2: The Lakes Hotel -->
+      <div class="property-card">
+        <div class="property-carousel">
+          <img src="https://i.postimg.cc/8cKDf7jR/LAkes-1.jpg" alt="The Lakes Hotel" class="active">
+          <img src="https://i.postimg.cc/3NS70kdP/LAkes-2.jpg" alt="The Lakes Hotel">
+          <img src="https://i.postimg.cc/fLvMZ2Zh/LAkes-3.jpg" alt="The Lakes Hotel">
+        </div>
+        <div class="property-meta">
+          <div>
+            <div class="property-title">The Lakes Hotel</div>
+            <div class="property-loc">Johannesburg, South Africa</div>
+          </div>
+        </div>
+        <p class="teaser">Modern comfort meets lakeside serenity.</p>
+        <div class="more-text">
+          <p>The 4-star Hotel & Convention Centre OR Tambo offers 161 stylish rooms catering to a range of preferences. Each room is designed for your comfort, offering modern conveniences like complimentary Wi-Fi, flat-screen TVs, air conditioning, and plush bedding. Enjoy a stunning lake view and a fresh cup of coffee on your private balcony each morning.</p>
+          <p>→ Experience comfort. Embrace tranquility.</p>
+        </div>
+        <button class="toggle-btn">Show More</button>
+      </div>
+
+      <!-- Property 3: Sylva Hotel -->
+      <div class="property-card">
+        <div class="property-carousel">
+          <img src="https://i.postimg.cc/MT3ryVmD/sylva-hotel-3.jpg" alt="Sylva Hotel" class="active">
+          <img src="https://i.postimg.cc/sXgNQwSt/sylva-Hotel-3.jpg" alt="Sylva Hotel">
+          <img src="https://i.postimg.cc/qv2Y9tp0/Sylva-2.jpg" alt="Sylva Hotel">
+        </div>
+        <div class="property-meta">
+          <div>
+            <div class="property-title">Sylva Hotel</div>
+            <div class="property-loc">Limassol, Cyprus</div>
+          </div>
+        </div>
+        <p class="teaser">Where coastal charm meets city life.</p>
+        <div class="more-text">
+          <p>Nestled in the heart of vibrant Limassol, Sylva Hotel offers a harmonious blend of comfort, style, and convenience. With 92 elegantly appointed rooms, each designed for relaxation, the hotel provides the perfect gateway to the Mediterranean Sea and the city’s energy.</p>
+          <p>→ Timeless comfort in every stay.</p>
+        </div>
+        <button class="toggle-btn">Show More</button>
+      </div>
+
+      <!-- Property 4: The View Beach Penthouse -->
+      <div class="property-card">
+        <div class="property-carousel">
+          <img src="https://i.postimg.cc/fLZStNVv/GAlatex.jpg" alt="The View Beach Penthouse" class="active">
+          <img src="https://i.postimg.cc/5yszWRNX/GAltex-2.jpg" alt="The View Beach Penthouse">
+          <img src="https://i.postimg.cc/yNgwvfW9/GAlatex-3.jpg" alt="The View Beach Penthouse">
+        </div>
+        <div class="property-meta">
+          <div>
+            <div class="property-title">The View Beach Penthouse</div>
+            <div class="property-loc">Limassol, Cyprus</div>
+          </div>
+        </div>
+        <p class="teaser">Luxury living by the Mediterranean.</p>
+        <div class="more-text">
+          <p>The View Beach Penthouse offers breathtaking sea views and beachfront luxury. This 3-bedroom, 2-bathroom retreat features a spacious terrace, patio with barbecue facilities, free Wi-Fi, and private parking for the ultimate seaside escape.</p>
+          <p>→ A lifestyle above the waves.</p>
+        </div>
+        <button class="toggle-btn">Show More</button>
+      </div>
+
+      <!-- Property 5: Emerald Eden (Zimbali) -->
+      <div class="property-card">
+        <div class="property-carousel">
+          <img src="https://i.postimg.cc/ncbNTYtm/Zimbali-1.jpg" alt="Emerald Eden (Zimbali)" class="active">
+          <img src="https://i.postimg.cc/qMsSFhJz/Zimbali-2.jpg" alt="Emerald Eden (Zimbali)">
+          <img src="https://i.postimg.cc/dQbDBX3P/Zimbali-3.jpg" alt="Emerald Eden (Zimbali)">
+        </div>
+        <div class="property-meta">
+          <div>
+            <div class="property-title">Emerald Eden (Zimbali)</div>
+            <div class="property-loc">Zimbali, South Africa</div>
+          </div>
+        </div>
+        <p class="teaser">Where luxury meets nature.</p>
+        <div class="more-text">
+          <p>Located in the heart of Ballito, Zimbali Emerald Eden offers luxurious accommodation just 400 meters from Zimbali Beach. This 4-bedroom, 5-bathroom villa boasts a private pool and elegant amenities for the perfect getaway.</p>
+          <p>→ Where luxury meets nature.</p>
+        </div>
+        <button class="toggle-btn">Show More</button>
+      </div>
+
+      <!-- Property 6: Phynix Nest -->
+      <div class="property-card">
+        <div class="property-carousel">
+          <img src="https://i.postimg.cc/L5rLS8m6/Greece-1.jpg" alt="Phynix Nest" class="active">
+          <img src="https://i.postimg.cc/T3vgH1kY/Greece-2.jpg" alt="Phynix Nest">
+          <img src="https://i.postimg.cc/90BQ6R1W/Greece3.jpg" alt="Phynix Nest">
+        </div>
+        <div class="property-meta">
+          <div>
+            <div class="property-title">Phynix Nest</div>
+            <div class="property-loc">Athens, Greece</div>
+          </div>
+        </div>
+        <p class="teaser">A family retreat in the heart of Athens.</p>
+        <div class="more-text">
+          <p>Nestled in central Athens, this 3-bedroom, 2-bathroom apartment is a serene escape amidst the city’s energy. Perfect for families, it features high-end appliances and a quiet pedestrian walkway close to cultural and dining hotspots.</p>
+          <p>→ Elegant comfort for urban explorers.</p>
+        </div>
+        <button class="toggle-btn">Show More</button>
+      </div>
+
+      <!-- Property 7: Cielo Restaurant -->
+      <div class="property-card">
+        <div class="property-carousel">
+          <img src="https://i.postimg.cc/NjpzPsw3/Cielo-3.jpg" alt="Cielo Restaurant" class="active">
+          <img src="https://i.postimg.cc/25DPgcq7/Cielo-1.jpg" alt="Cielo Restaurant">
+          <img src="https://i.postimg.cc/zfD1V2Jw/Cielo-2.png" alt="Cielo Restaurant">
+        </div>
+        <div class="property-meta">
+          <div>
+            <div class="property-title">Cielo Restaurant</div>
+            <div class="property-loc">Johannesburg, South Africa</div>
+          </div>
+        </div>
+        <p class="teaser">Where dining meets design.</p>
+        <div class="more-text">
+          <p>The Beach at Cielo is more than just a destination — it’s an experience. Perfect for summertime gatherings, company cocktail parties, or laid-back daytime meetings, the venue offers a full-service bar, a sun-drenched pool deck, six private cabanas, and an atmosphere that feels effortlessly chic.</p>
+          <p>→ Sophisticated leisure by the water.</p>
+        </div>
+        <button class="toggle-btn">Show More</button>
+      </div>
+    </div>
+  </section>
+
+  <section id="services">
+    <h2 class="section-title">Our Services</h2>
+    <div class="services">
+      <div class="service-card">
+        <h3>Hospitality Operations</h3>
+        <p>Expert analysis for hotels, villas, and short-term rentals. We pinpoint inefficiencies and deliver strategies that elevate guest experience and profitability. We don’t manage — we transform.</p>
+      </div>
+      <div class="service-card">
+        <h3>Property Consulting</h3>
+        <p>Feasibility, renovation, and repositioning guidance. We align design vision with commercial performance to maximize long-term value.</p>
+      </div>
+      <div class="service-card">
+        <h3>Product Sourcing</h3>
+        <p>We source premium furniture, finishes, and amenities tailored to each project’s identity — connecting you with quality suppliers.</p>
+      </div>
+    </div>
+  </section>
+
+  <section id="contact">
+    <h2 class="section-title">Contact Us</h2>
+    <p>At Rots Group, we’re always open to new collaborations, investment opportunities, and hospitality transformations. Whether you’re exploring a new property concept or want to elevate an existing one — let’s start the conversation.</p>
+    
+    <form action="https://formsubmit.co/me@rotsgroup.org" method="POST">
+      <input type="hidden" name="_next" value="https://rotsgroup.org/thank-you.html">
+      <input type="hidden" name="_captcha" value="false">
+
+      <input type="text" name="name" placeholder="Your Name" required>
+      <input type="email" name="email" placeholder="Your Email" required>
+      <textarea name="message" placeholder="Your Message" required></textarea>
+      <button type="submit" class="btn">Send Message</button>
+    </form>
+  </section>
+
+  <footer>
+    <div>© 2025 Rots Group</div>
+    <div class="links">
+      <a href="#home">Home</a>
+      <a href="#portfolio">Portfolio</a>
+      <a href="#services">Services</a>
+      <a href="#contact">Contact</a>
+    </div>
+  </footer>
+
+  <script>
+    document.querySelectorAll('.toggle-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const card = btn.closest('.property-card');
+        const moreText = card.querySelector('.more-text');
+        const isOpen = moreText.style.display === 'block';
+        moreText.style.display = isOpen ? 'none' : 'block';
+        btn.textContent = isOpen ? 'Show More' : 'Show Less';
+      });
+    });
+
+    document.querySelectorAll('.property-carousel').forEach(carousel => {
+      const imgs = carousel.querySelectorAll('img');
+      let index = 0;
+      carousel.addEventListener('click', () => {
+        imgs[index].classList.remove('active');
+        index = (index + 1) % imgs.length;
+        imgs[index].classList.add('active');
+      });
+    });
+  </script>
+</body>
+
